@@ -22,3 +22,9 @@
   color: #aaa;
   cursor: not-allowed;
 }
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

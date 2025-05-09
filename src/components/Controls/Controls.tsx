@@ -17,7 +17,7 @@ const Controls: FC<IControlsProps> = ({
   fetchCat,
 }) => (
   <div className={styles.controls}>
-    <label>
+    <label className={styles.checkboxLabel}>
       <input
         type="checkbox"
         checked={enabled}
@@ -25,7 +25,7 @@ const Controls: FC<IControlsProps> = ({
       />
       Enabled
     </label>
-    <label>
+    <label className={styles.checkboxLabel}>
       <input
         type="checkbox"
         checked={autoRefresh}
