@@ -7,10 +7,11 @@ interface ICatImageProps {
 }
 
 const CatImage: FC<ICatImageProps> = ({ url, enabled }) => {
-  if (!enabled) return null;
   return (
     <div className={styles.catImage}>
-      <img src={url || "/default-cat.svg"} alt="cat" className={styles.img} />
+      {enabled && (
+        <img src={url || "/default-cat.svg"} alt="cat" className={styles.img} />
+      )}
     </div>
   );
 };
