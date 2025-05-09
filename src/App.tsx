@@ -2,9 +2,7 @@ import { useState, useEffect, useRef, FC } from "react";
 import styles from "./App.module.css";
 import Controls from "./components/Controls/Controls";
 import CatImage from "./components/CatImage/CatImage";
-
-const API_KEY =
-  "ive_cuibtCvZH5vtFB0tDHbanwzXYSQxzKXKTq67ytnIe0IB6Bw9YcO8ixhyEPqKLy92";
+import { getRandomCat } from "./actions/cats/cats";
 
 const App: FC = () => {
   const [enabled, setEnabled] = useState(true);
@@ -13,15 +11,8 @@ const App: FC = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchCat = async () => {
-    try {
-      const res = await fetch("https://api.thecatapi.com/v1/images/search", {
-        headers: { "x-api-key": API_KEY },
-      });
-      const data = await res.json();
-      setCatUrl(data[0]?.url || null);
-    } catch {
-      setCatUrl(null);
-    }
+    const url = await getRandomCat();
+    setCatUrl(url);
   };
 
   useEffect(() => {
