@@ -1,8 +1,3 @@
-Run the dev server (localhost:3000):
-
-```
-npm start
-```
 #### React app for browse random cats using TheCatAPI.
 ♦ The interface implements:
 
@@ -13,3 +8,12 @@ npm start
 * Checkbox for automatic cat update every 5 seconds
   ![image](https://github.com/user-attachments/assets/a2ceb824-90c4-4682-ad57-14f331969df3)
 * Responsive Design and Styling via CSS Modules
+
+#### Demo video:
+https://github.com/user-attachments/assets/80d5b6e6-9993-48bb-9826-c2b84e8a42e4
+
+Run the dev server (localhost:3000):
+
+```
+npm start
+```
