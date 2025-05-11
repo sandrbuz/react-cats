@@ -3,7 +3,7 @@ import styles from "./App.module.css";
 import Controls from "./components/Controls/Controls";
 import CatImage from "./components/CatImage/CatImage";
 import { getRandomCat } from "./actions/cats/cats";
-import useDebounce from "./lib/hooks/use-debounce";
+import useThrottle from "./lib/hooks/use-throttle";
 
 const App: FC = () => {
   const [enabled, setEnabled] = useState(true);
@@ -16,7 +16,7 @@ const App: FC = () => {
     setCatUrl(url);
   };
 
-  const debouncedFetchCat = useDebounce(fetchCat, 300);
+  const throttledFetchCat = useThrottle(fetchCat, 1000);
 
   useEffect(() => {
     if (enabled && autoRefresh) {
@@ -44,7 +44,7 @@ const App: FC = () => {
           setEnabled={setEnabled}
           autoRefresh={autoRefresh}
           setAutoRefresh={setAutoRefresh}
-          fetchCat={debouncedFetchCat}
+          fetchCat={throttledFetchCat}
         />
         <CatImage url={catUrl} enabled={enabled} />
       </div>
