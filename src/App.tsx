@@ -10,9 +10,15 @@ const App: FC = () => {
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(false);
   const [catUrl, setCatUrl] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isEnabledRef = useRef(isEnabled);
+
+  useEffect(() => {
+    isEnabledRef.current = isEnabled;
+  }, [isEnabled]);
 
   const fetchCat = useCallback(async () => {
     const url = await getRandomCat();
+    if (!isEnabledRef.current) return;
     setCatUrl(url);
   }, []);
 
