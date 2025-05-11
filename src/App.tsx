@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FC } from "react";
+import { useState, useEffect, useRef, FC, useCallback } from "react";
 import styles from "./App.module.css";
 import Controls from "./components/Controls/Controls";
 import CatImage from "./components/CatImage/CatImage";
@@ -6,47 +6,47 @@ import { getRandomCat } from "./actions/cats/cats";
 import useThrottle from "./lib/hooks/use-throttle";
 
 const App: FC = () => {
-  const [enabled, setEnabled] = useState(true);
-  const [autoRefresh, setAutoRefresh] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(true);
+  const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(false);
   const [catUrl, setCatUrl] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const fetchCat = async () => {
+  const fetchCat = useCallback(async () => {
     const url = await getRandomCat();
     setCatUrl(url);
-  };
+  }, []);
 
   const throttledFetchCat = useThrottle(fetchCat, 1000);
 
   useEffect(() => {
-    if (enabled && autoRefresh) {
+    if (isEnabled && isAutoRefreshEnabled) {
       fetchCat();
       intervalRef.current = setInterval(fetchCat, 5000);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [enabled, autoRefresh]);
+  }, [isEnabled, isAutoRefreshEnabled]);
 
   useEffect(() => {
-    if (!enabled) {
+    if (!isEnabled) {
       setCatUrl(null);
-      setAutoRefresh(false);
+      setIsAutoRefreshEnabled(false);
       if (intervalRef.current) clearInterval(intervalRef.current);
     }
-  }, [enabled]);
+  }, [isEnabled]);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
         <Controls
-          enabled={enabled}
-          setEnabled={setEnabled}
-          autoRefresh={autoRefresh}
-          setAutoRefresh={setAutoRefresh}
+          isEnabled={isEnabled}
+          setIsEnabled={setIsEnabled}
+          isAutoRefreshEnabled={isAutoRefreshEnabled}
+          setIsAutoRefreshEnabled={setIsAutoRefreshEnabled}
           fetchCat={throttledFetchCat}
         />
-        <CatImage url={catUrl} enabled={enabled} />
+        <CatImage url={catUrl} isEnabled={isEnabled} />
       </div>
     </div>
   );
