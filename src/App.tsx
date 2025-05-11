@@ -4,6 +4,7 @@ import Controls from "./components/Controls/Controls";
 import CatImage from "./components/CatImage/CatImage";
 import { getRandomCat } from "./actions/cats/cats";
 import useThrottle from "./lib/hooks/use-throttle";
+import { useAutoRefresh } from "./lib/hooks/use-auto-refresh";
 
 const App: FC = () => {
   const [isEnabled, setIsEnabled] = useState(true);
@@ -24,15 +25,7 @@ const App: FC = () => {
 
   const throttledFetchCat = useThrottle(fetchCat, 1000);
 
-  useEffect(() => {
-    if (isEnabled && isAutoRefreshEnabled) {
-      fetchCat();
-      intervalRef.current = setInterval(fetchCat, 5000);
-    }
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isEnabled, isAutoRefreshEnabled]);
+  useAutoRefresh(fetchCat, isEnabled, isAutoRefreshEnabled, 5000);
 
   useEffect(() => {
     if (!isEnabled) {
